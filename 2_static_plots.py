@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Data and Programming II - Final Project
 Exploration and formatting for Static Plots
 @author: polinarozhkova
 """

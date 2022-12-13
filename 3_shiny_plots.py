@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Data and Programming II - Final Project
 Shiny Plots
 @author: polinarozhkova
 """
@@ -130,4 +129,3 @@ app = App(app_ui, server)
 # Sources:
 # EXTRACT FIRST N CHARACTERS FROM LEFT OF COLUMN
 # https://www.datasciencemadesimple.com/return-first-n-character-from-left-of-column-in-pandas-python/
-# reused sections of homework 4

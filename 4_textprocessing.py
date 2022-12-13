@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Data and Programming II - Final Project
 Text Processing
 CPD Annual Reports -- clearance rates data
 @author: polinarozhkova
@@ -72,6 +71,5 @@ plot_sentiment(sentiment_df)
 plt.savefig(os.path.join(base_path + '/plots/' + 'textprocessing_plot.png'))
 
 # Sources:
-# Lecture 4 Supplemental
 # https://stackoverflow.com/questions/72601282/python-extract-text-from-multiple-pdf-and-paste-on-excel
-# referred to hw 3
+

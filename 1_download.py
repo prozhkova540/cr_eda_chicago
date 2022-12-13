@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Data and Programming II - Final Project
 Data Retrieval, cleaning and preparation
 @author: polinarozhkova
 """
