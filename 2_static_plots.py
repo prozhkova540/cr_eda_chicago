@@ -9,7 +9,7 @@ import os
 import seaborn as sns
 import matplotlib.pyplot as plt
 
-path = r'/Users/polinarozhkova/Desktop/GitHub/final-project-homicide-cr-and-cpd-complaints/'
+path = r'/Users/polinarozhkova/Desktop/GitHub/cr_eda_chicago/'
 final_merge_df = pd.read_csv(os.path.join(path, 'clean_data/merge_all.csv'))
 cr_reports = pd.read_excel(os.path.join(path, 'inputs/CR_from_CPD_Annual_Reports_copy.xlsx'))
 
@@ -21,14 +21,13 @@ yr_month_map = yr_month_map.rename(
 
 fig, ax = plt.subplots(figsize=(10, 10))
 sns.heatmap(yr_month_map, cmap='RdYlGn_r',
-            annot=True, fmt='.3g', annot_kws={'size': 8},
             cbar_kws={'label': 'Count'})
 ax.set_yticklabels(ax.get_yticklabels(), rotation=0, fontsize=10)
 ax.set_xticklabels(ax.get_xticklabels(), rotation=0, fontsize=10)
 ax.set_xlabel('Month')
 ax.set_ylabel('Year')
 plt.title('Homicide Count in Chicago 2001 - 2021', fontdict={'fontsize': 12}, pad=14)
-plt.savefig(os.path.join(path, '/plot/static_plot_1.png'))
+plt.savefig(os.path.join(path, '/plots/static_plot_1.png'))
 
 # plot 2
 # number of homicides in data and number of homicides in the CPD annual reports don't always match
@@ -107,7 +106,7 @@ plot_annotate(ax3, 56, 52, 56)
 ax1.set_title('Total Homicides')
 ax2.set_title('Homicides Involving Firearms')
 ax3.set_title('Domestic Violence Homicides')
-plt.savefig(os.path.join(path, '/plot/static_plot_2.png'))
+plt.savefig(os.path.join(path, '/plots/static_plot_2.png'))
 
 # Sources:
 # For heatmap: https://seaborn.pydata.org/generated/seaborn.heatmap.html;
