@@ -12,7 +12,7 @@ import matplotlib.pyplot as plt
 import geopandas
 import os
 
-path = r'/Users/polinarozhkova/Desktop/GitHub/final-project-homicide-cr-and-cpd-complaints/'
+path = r'/Users/polinarozhkova/Desktop/GitHub/cr_eda_chicago/'
 district_shp = os.path.join(path, 'PoliceDistrict', 'PoliceDistrict.shp')
 
 df_district = geopandas.read_file(district_shp)

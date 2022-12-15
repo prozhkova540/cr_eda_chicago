@@ -27,7 +27,7 @@ ax.set_xticklabels(ax.get_xticklabels(), rotation=0, fontsize=10)
 ax.set_xlabel('Month')
 ax.set_ylabel('Year')
 plt.title('Homicide Count in Chicago 2001 - 2021', fontdict={'fontsize': 12}, pad=14)
-plt.savefig(os.path.join(path, '/plots/static_plot_1.png'))
+plt.savefig(os.path.join(path, 'plots/static_plot_1.png'))
 
 # plot 2
 # number of homicides in data and number of homicides in the CPD annual reports don't always match
@@ -100,13 +100,13 @@ ax1, ax2, ax3 = axes.flatten()
 line_subplots(total_commit_cleared, ax1)
 line_subplots(total_firearm, ax2)
 line_subplots(total_dv, ax3)
-plot_annotate(ax1, 750, 650, 750)
-plot_annotate(ax2, 700, 600, 700)
-plot_annotate(ax3, 56, 52, 56)
+#plot_annotate(ax1, 750, 650, 750)
+#plot_annotate(ax2, 700, 600, 700)
+#plot_annotate(ax3, 56, 52, 56)
 ax1.set_title('Total Homicides')
 ax2.set_title('Homicides Involving Firearms')
 ax3.set_title('Domestic Violence Homicides')
-plt.savefig(os.path.join(path, '/plots/static_plot_2.png'))
+plt.savefig(os.path.join(path, 'plots/static_plot_2.png'))
 
 # Sources:
 # For heatmap: https://seaborn.pydata.org/generated/seaborn.heatmap.html;
