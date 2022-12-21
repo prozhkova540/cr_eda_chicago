@@ -8,7 +8,7 @@ from sodapy import Socrata
 import pandas as pd
 import os
 
-path = r'/Users/polinarozhkova/Desktop/GitHub/final-project-homicide-cr-and-cpd-complaints/'
+path = r'/Users/polinarozhkova/Desktop/GitHub/cr_eda_chicago/'
 client = Socrata("data.cityofchicago.org/", None)
 
 results = client.get_all('ijzp-q8t2', primary_type='HOMICIDE', limit=11669)
@@ -56,7 +56,8 @@ def prep_portal_df(df):
                  'iucr', 'age', 'sex', 'race', 'month', 'day_of_week', 'hour',
                  'location_description_y', 'latitude_y', 'longitude_y', 'location_x', 'arrest',
                  'domestic', 'gunshot_injury_i', 'ward_x', 'community_area_x',
-                 'street_outreach_organization']]
+                 'street_outreach_organization', 'homicide_victim_first_name',
+                 'homicide_victim_last_name']]
     df_new['date_x'] = df_new['date_x'].apply(pd.to_datetime)
     df_new['year'] = df_new['date_x'].dt.year
     df_new = df_new[(df_new['year'] >= 2001) &
