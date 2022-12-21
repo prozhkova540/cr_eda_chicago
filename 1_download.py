@@ -38,6 +38,7 @@ def load_foia_hom(df):
     df_clean.columns = df_clean.columns.str.lower()
     df_clean = df_clean.drop(columns='cleared exceptionally')
     df_clean = df_clean[(df_clean['date'].dt.year >= 2001) & (df_clean['date'].dt.year < 2022)]
+    df_clean['time_to_clear'] = (df_clean['date_clear'] - df_clean['date']).dt.days
     return df_clean
 
 
@@ -48,6 +49,7 @@ def load_trace_hom(df):
     df_clean = df_clean.dropna(subset=['id'])
     df_clean = df_clean[['case_number', 'id', 'date', 'injury_type', 'cleared', 'date_clear',
                          'beat', 'district']]
+    df_clean['time_to_clear'] = (df_clean['date_clear'] - df_clean['date']).dt.days
     return df_clean
 
 
