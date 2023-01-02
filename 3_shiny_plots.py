@@ -14,7 +14,6 @@ import os
 
 path = r'/Users/polinarozhkova/Desktop/GitHub/cr_eda_chicago/'
 district_shp = os.path.join(path, 'PoliceDistrict', 'PoliceDistrict.shp')
-
 df_district = geopandas.read_file(district_shp)
 df_district['DIST_NUM'] = df_district['DIST_NUM'].astype(float)
 
