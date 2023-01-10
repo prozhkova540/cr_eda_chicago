@@ -1,8 +1,8 @@
-# Homicide and Clearance 2001 - 2021 Chicago 
-This repository containes an exploratory data analysis examining the case status of homicides and incidents of non-fatal shootings in Chicago by victim characteristics and regional demographics over the last 20 years. I consider the characteristics of homicides, crime trends, how long it takes to clear a specific type of homicide, and what areas (by police district, ward, and neighborhood) of Chicago are most heavily impacted. More data is required to assess why these disparities exist.
+# Homicides and Unsolved Cases 2001 - 2021 Chicago 
+This repository containes an exploratory data analysis examining the case status of homicides in Chicago by victim characteristics and regional demographics over the last 20 years. I consider the characteristics of homicides, crime trends, how long it takes to clear a specific type of homicide, and what areas (by police district, ward, and neighborhood) of Chicago are most heavily impacted. More data is required to assess the specific causes of these disparities.
 
-## Why this matters 
-We live in a society where we have agreed to adhere to a basic set of conditions-- these aren't always met, but as a society we have agreed that people who violate or take a life should be held accountable for their crimes. In Chicago, unsolved homicides and non-fatal shootings perpetuate a cycle of retributive violence and further fuel feelings of mistrust towards law enforcement. 
+## Homicide in Chicago 
+The Covid-19 pandemic was met with murder rates almost double of any year over the last two decades—with Black people making up 20-30 times the number of homicide victimizations of every racial group except for White Hispanics. Between 2019 and 2021, more than 1500 Black individuals were murdered in Chicago. Among White Hispanics, nearly 300 people died due to homicide and nearly 100 homicide victims were White. 
 
 ## Clearance Rates
 The Chicago Police Department relies on the FBI’s formula for calculating clearance rates as the number of homicide cases solved, regardless of the year the incident occurred, divided by the number of homicides committed in a given year. In 2020, CPD cleared 354 homicides and the city saw 774 incidents of homicide resulting in a 45% clearance rate. Almost a fifth of the cases contributing to the clearance rate in 2020 took place prior to 2016.
@@ -18,7 +18,7 @@ Throughout the the project, I specify when I'm referring to formal 'clearances r
 Academic literature points to two primary theories around racial disparities in homicide clearance rates. One theory suggests that law enforcement makes less of an effort with cases involving non-white victims in disadvantaged neighborhoods and the second theory suggests that law enforcement value all victims equally but factors such as the incident characteristics and detective workload lead to unequal outcomes in a homicide investigation. Proving the validity of either theory is irrelevant to the scope of this work, but the two theories together help provide a framework by which to assess what (if anything) in the existing law enforcement system is working.
 
 ## Contents of EDA
-- Mapping of police district to Chicago neighborhoods 
+- Mapping of homicide counts and clearance rates in Chicago neighborhoods 2019 - 2021
 - Demographics of police districts by race
 - Number of cases cleared between 2001 - 2021
 - Homicide trends over time 
@@ -31,9 +31,8 @@ Academic literature points to two primary theories around racial disparities in 
 - Interative shiny plots 
 
 ## Big picture questions
-- What are the causes of racial disparities in homicide clearances?
 - Focusing on increasing clearance rates runs the obvious danger of locking up innocent people but if there were a way to ensure that every perpetrator was correctly identified and held accountable for their crimes, what impact would that have on community safety? What effect would that have on overall wellbeing? 
 - Is there data on cities with homicide rates comparable to those of Chicago that have significantly improved in response to calls for police reform?
 - What would murder accountability look like in the absence of a carceral strategy? 
 
-As a researcher and as a human, I don't believe in the efficacy of incarceration as a remedy for crime because well... there's no evidence that America's carceral strategy is working. Countless empirical studies point out that increased incarceration has had close to no effect on the decrease in violent crime since 2000 ([this report](https://www.brennancenter.org/our-work/research-reports/what-caused-crime-decline) highlights several studies). 
+As a human being, I don't believe in the efficacy of incarceration as a remedy for crime and as a researcher, there is no evidence that America's carceral strategy is working. Countless empirical studies point out that increased incarceration has had close to no effect on the decrease in violent crime since 2000 ([this report](https://www.brennancenter.org/our-work/research-reports/what-caused-crime-decline) highlights several studies). 
