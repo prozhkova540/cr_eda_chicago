@@ -61,7 +61,7 @@ def district_grouped(df, df_cleared, df_district):
     hom_district = hom_district.rename(columns={'case_number': 'homicide_count'})
     clear_district = df.groupby(['DIST_NUM'])['cleared'].sum().reset_index()
     hom_district = hom_district.merge(clear_district, on=['DIST_NUM']).reset_index()
-    hom_district['dist_cr'] = hom_district.cleared/hom_district.homicide_count
+    hom_district['dist_cr'] = round((hom_district.cleared/hom_district.homicide_count)*100, 2)
     df_district = df_district.merge(hom_district)
     df_district = df_district.to_crs('EPSG:4326')
     return df_district
@@ -78,7 +78,7 @@ def beat_grouped(df, df_cleared, beat_df, new_df):
     clear_beat = df.groupby(['beat_num'])['cleared'].sum().reset_index()
     hom_beat = hom_beat.merge(clear_beat, on=['beat_num']).reset_index()
     hom_race_merge = pd.merge(hom_beat, race_2021, how="inner", on=['beat_num'])
-    hom_race_merge['beat_cr'] = hom_beat.cleared/hom_beat.homicide_count
+    hom_race_merge['beat_cr'] = round((hom_beat.cleared/hom_beat.homicide_count)*100, 2)
     beat_df = beat_df.merge(hom_race_merge, on=['beat_num'])
     beat_df = beat_df.merge(new_df, on=['DIST_NUM'])
     beat_df = beat_df.to_crs('EPSG:4326')
@@ -123,39 +123,41 @@ number_hom_2021 = geopandas.GeoDataFrame(number_hom_2021, geometry=geopandas.poi
     number_hom_2021.longitude_y, number_hom_2021.latitude_y))
 
 
-fig, axes = plt.subplots(nrows=3, ncols=1, figsize=(25, 25))
+# map of racial demographics
+beat_race_df = beat_df.merge(race_2021, on=['beat_num'])
+fig, ax1 = plt.subplots(figsize=(10, 10))
 sns.set_style("dark")
-ax1, ax2, ax3 = axes.flatten()
-
 divider = make_axes_locatable(ax1)
-cax = divider.append_axes('right', size='3%', pad=0.1, label='test')
-hom_dist_2019.plot(ax=ax1, column='dist_cr',  missing_kwds={'color': 'lightgrey'},
-                   legend=True, cax=cax, cmap='Blues', legend_kwds={'format': '%.2f%%'})
-# ax1 = hom_beat_2019.plot(ax=ax1, legend=True, cax=cax, alpha=0.2)
-hom_beat_2019.plot(ax=ax1, column='dist_cr', legend=True, cax=cax, cmap='Blues')
-number_hom_2019.plot(ax=ax1, column='race', cmap='RdYlGn', legend=True, markersize=5)
+cax = divider.append_axes('right', size='4%', pad=0.1)
+ax1 = beat_race_df.plot(ax=ax1, column='perc_black',  missing_kwds={'color': 'lightgrey'},
+                        legend=True, cax=cax, cmap='Greens', legend_kwds={'format': '%.2f%%'})
 ax1.axis('off')
+ax1.set_title("Black Pop. as Percentage of Chicago's Total Pop.", loc='center')
+plt.savefig(os.path.join(path, 'plots/racial_demographics.eps'), format='eps', dpi=1000)
 
 
-divider = make_axes_locatable(ax2)
-cax = divider.append_axes('right', size='3%', pad=0.1)
-ax2 = hom_dist_2020.plot(ax=ax2, column='dist_cr',  missing_kwds={'color': 'lightgrey'},
-                         legend=True, cax=cax, cmap='Blues', legend_kwds={'format': '%.2f%%'})
-# ax2 = hom_beat_2020.plot(ax=ax2, legend=True, cax=cax, alpha=0)
-ax2 = hom_beat_2020.plot(ax=ax2, column='dist_cr', legend=True, cax=cax, cmap='Blues')
-number_hom_2020.plot(ax=ax2, column='race', cmap='RdYlGn', legend=True, markersize=5)
-ax2.axis('off')
+def plot_map(df_dist, df_beat, number_hom, title):
+    fig, ax_n = plt.subplots(figsize=(10, 10))
+    sns.set_style("dark")
+    divider = make_axes_locatable(ax_n)
+    cax = divider.append_axes('right', size='4%', pad=0.1)
+    ax_n = df_dist.plot(ax=ax_n, column='dist_cr',  missing_kwds={'color': 'lightgrey'},
+                        legend=True, cax=cax, cmap='Blues', legend_kwds={'format': '%.2f%%'})
+    ax_n = hom_beat_2021.plot(ax=ax_n, column='dist_cr', legend=True, cax=cax, cmap='Blues')
+    number_hom.plot(ax=ax_n, column='race', cmap='RdYlGn', legend=True, markersize=5)
+    ax_n.set_title(title)
+    ax_n.axis('off')
+    return
 
-divider = make_axes_locatable(ax3)
-cax = divider.append_axes('right', size='3%', pad=0.1)
-ax3 = hom_dist_2021.plot(ax=ax3, column='dist_cr',  missing_kwds={'color': 'lightgrey'},
-                         legend=True, cax=cax, cmap='Blues', legend_kwds={'format': '%.2f%%'})
-# ax3 = hom_beat_2021.plot(ax=ax3, legend=True, cax=cax, alpha=0)
-ax3 = hom_beat_2021.plot(ax=ax3, column='dist_cr', legend=True, cax=cax, cmap='Blues')
-number_hom_2021.plot(ax=ax3, column='race', cmap='RdYlGn', legend=True, markersize=5)
-ax3.axis('off')
 
-ax1.set_title('Homicide and Clearance Rate by District 2019')
-ax2.set_title('Homicide and Clearance Rate by District 2020')
-ax3.set_title('Homicide and Clearance Rate by District 2021')
-plt.savefig(os.path.join(path, 'plots/homicide_clr_map.eps'), format='eps', dpi=1000)
+ax_1 = plot_map(hom_dist_2019, hom_beat_2019, number_hom_2019,
+                'Homicide and Clearance Rate by District 2019')
+plt.savefig(os.path.join(path, 'plots/homicide_clr_map_19.eps'), format='eps', dpi=1000)
+
+plot_map(hom_dist_2020, hom_beat_2020, number_hom_2020,
+         'Homicide and Clearance Rate by District 2020')
+plt.savefig(os.path.join(path, 'plots/homicide_clr_map_20.eps'), format='eps', dpi=1000)
+
+plot_map(hom_dist_2021, hom_beat_2021, number_hom_2021,
+         'Homicide and Clearance Rate by District 2021')
+plt.savefig(os.path.join(path, 'plots/homicide_clr_map_21.eps'), format='eps', dpi=1000)
