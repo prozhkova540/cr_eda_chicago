@@ -37,7 +37,7 @@ def load_foia_hom(df):
                                   'DATE CLEARED': 'date_clear'})
     df_clean.columns = df_clean.columns.str.lower()
     df_clean = df_clean.drop(columns='cleared exceptionally')
-    df_clean = df_clean[(df_clean['date'].dt.year >= 2001) & (df_clean['date'].dt.year < 2022)]
+    df_clean = df_clean[df_clean['date'].dt.year < 2022]
     df_clean['time_to_clear'] = df_clean['date_clear'] - df_clean['date']
     return df_clean
 
@@ -62,8 +62,7 @@ def prep_portal_df(df):
                  'homicide_victim_last_name']]
     df_new['date_x'] = df_new['date_x'].apply(pd.to_datetime)
     df_new['year'] = df_new['date_x'].dt.year
-    df_new = df_new[(df_new['year'] >= 2001) &
-                    (df_new['year'] < 2022)].drop_duplicates(subset=['unique_id'])
+    df_new = df_new[df_new['year'] < 2022].drop_duplicates(subset=['unique_id'])
     return df_new
 
 

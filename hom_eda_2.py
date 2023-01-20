@@ -11,19 +11,33 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 
 path = r'/Users/polinarozhkova/Desktop/GitHub/cr_eda_chicago/'
+fname = 'inputs/FOIA_2019_to_2021_Clearance_Rates_Shooting_Homicides.xlsx'
+foia_hom = pd.read_excel((os.path.join(path, fname)), sheet_name=2)
 final_merge_df = pd.read_csv(os.path.join(path, 'clean_data/merge_all.csv'))
 cr_reports = pd.read_excel(os.path.join(path, 'inputs/CR_from_CPD_Annual_Reports_copy.xlsx'))
 
-fname_2 = 'inputs/FOIA_2019_to_2021_Clearance_Rates_Shooting_Homicides.xlsx'
-foia_hom = pd.read_excel((os.path.join(path, fname_2)), sheet_name=2)
 
+def load_foia_hom(df):
+    df_clean = df.rename(columns={'RD': 'case_number', 'HOMICIDE ID': 'id',
+                                  'INJURY DATE': 'date', 'INJURY DESCRIPTION': 'injury_type',
+                                  'DATE CLEARED': 'date_clear'})
+    df_clean.columns = df_clean.columns.str.lower()
+    df_clean = df_clean[df_clean['date'].dt.year < 2022]
+    df_clean['time_to_clear'] = df_clean['date_clear'] - df_clean['date']
+    return df_clean
+
+
+def formal_clearance(df):
+    df_new = df_clean[(df_clean['date'].dt.year >= 2001) & (df_clean['date'].dt.year < 2022)]
+    df_clean['time_to_clear'] = df_clean['date_clear'] - df_clean['date']
+    return df_clean
+
+
+foia_df = load_foia_hom(foia_hom)
 
 # exceptional clearances 2019 - 2021
-foia_hom['year_clear'] = foia_hom['DATE CLEARED'].dt.year
-foia_hom['year'] = foia_hom['INJURY DATE'].dt.year
-
 hom_year_df = pd.DataFrame(
-    foia_hom.groupby(['year_clear', 'year', 'CLEARED'])['RD'].count()).reset_index()
+    foia_df.groupby(['year_clear', 'year', 'CLEARED'])['RD'].count()).reset_index()
 
 clear_year_df = pd.DataFrame(
     foia_hom.groupby(['year_clear', 'CLEARED'])['RD'].count()).reset_index()
@@ -32,8 +46,10 @@ except_clear_year = pd.DataFrame(
     foia_hom.groupby(['year_clear', 'CLEARED', 'CLEARED EXCEPTIONALLY'])
     ['RD'].count()).reset_index()
 
-
+# Cases and their clearance status
+# This dataset does not include incidents that counted towards clearance rates prior to 2019
 all_cleared_df = final_merge_df[final_merge_df['cleared'] == 'Y']
+
 
 # race by yr
 race_grouped = pd.DataFrame(final_merge_df.groupby(['year', 'race'])
@@ -57,18 +73,3 @@ race_cleared_grouped
 sex_cleared_grouped = pd.DataFrame(all_cleared_df.groupby(['year_cleared', 'year', 'sex', 'race'])
                                    ['case_number'].count()).reset_index()
 sex_cleared_grouped
-
-
-# cases that remain open as of April 2022
-def merge_data(df_1, df_2):
-    merged_df = pd.merge(df_1, df_2, how="inner", on=['year', 'sex', 'race'])
-    return merged_df
-
-
-clear_interm = pd.DataFrame(all_cleared_df.groupby(['year', 'sex', 'race'])
-                            ['case_number'].count()).reset_index()
-clear_interm = clear_interm.rename(columns={'case_number': 'num_cleared'})
-
-merged_df = merge_data(sex_grouped, clear_interm)
-merged_df['open'] = merged_df.num_occur - merged_df.num_cleared
-merged_df['perc_unsolved'] = merged_df.open/merged_df.num_occur
