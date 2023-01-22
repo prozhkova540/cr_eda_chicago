@@ -23,28 +23,31 @@ def load_foia_hom(df):
                                   'DATE CLEARED': 'date_clear'})
     df_clean.columns = df_clean.columns.str.lower()
     df_clean = df_clean[df_clean['date'].dt.year < 2022]
+    df_clean.columns = df_clean.columns.str.lower()
     df_clean['time_to_clear'] = df_clean['date_clear'] - df_clean['date']
+    df_clean['year'] = df_clean['date'].dt.year
+    df_clean['year_cleared'] = df_clean['date_clear'].dt.year
     return df_clean
 
 
 def formal_clearance(df):
-    df_new = df_clean[(df_clean['date'].dt.year >= 2001) & (df_clean['date'].dt.year < 2022)]
-    df_clean['time_to_clear'] = df_clean['date_clear'] - df_clean['date']
-    return df_clean
+    df_new = df[(df['date'].dt.year >= 2001) & (df['date'].dt.year < 2022)]
+    df_new['time_to_clear'] = df_new['date_clear'] - df_new['date']
+    return df_new
 
 
 foia_df = load_foia_hom(foia_hom)
 
 # exceptional clearances 2019 - 2021
 hom_year_df = pd.DataFrame(
-    foia_df.groupby(['year_clear', 'year', 'CLEARED'])['RD'].count()).reset_index()
+    foia_df.groupby(['year_cleared', 'year', 'cleared'])['case_number'].count()).reset_index()
 
 clear_year_df = pd.DataFrame(
-    foia_hom.groupby(['year_clear', 'CLEARED'])['RD'].count()).reset_index()
+    foia_df.groupby(['year_cleared', 'cleared'])['case_number'].count()).reset_index()
 
 except_clear_year = pd.DataFrame(
-    foia_hom.groupby(['year_clear', 'CLEARED', 'CLEARED EXCEPTIONALLY'])
-    ['RD'].count()).reset_index()
+    foia_df.groupby(['year_cleared', 'cleared', 'cleared exceptionally'])
+    ['case_number'].count()).reset_index()
 
 # Cases and their clearance status
 # This dataset does not include incidents that counted towards clearance rates prior to 2019
@@ -62,6 +65,11 @@ sex_grouped = pd.DataFrame(final_merge_df.groupby(['year', 'sex', 'race'])
                            ['case_number'].count()).reset_index()
 sex_grouped
 sex_grouped = sex_grouped.rename(columns={'case_number': 'num_occur'})
+
+black_fem = final_merge_df[(final_merge_df['race'] == 'BLK')
+                           & (final_merge_df['sex'] == 'F')]
+black_fem_counts = pd.DataFrame(black_fem.groupby(['cleared'])
+                                ['case_number'].count()).reset_index()
 
 
 # race cleared by year -- incidents occurring between 2001 and 2021
