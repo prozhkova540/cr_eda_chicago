@@ -85,7 +85,8 @@ hom_clr_df = pd.concat([trace_df_clean, foia_df_clean], ignore_index=True, axis=
 
 
 # merge chicago data portal data and downloaded data
-merge_final = merge_data(cdp_data, hom_clr_df).drop_duplicates(subset=['unique_id'])
+merge_final = merge_data(cdp_data, hom_clr_df)
+# .drop_duplicates(subset=['unique_id'])
 merge_final['year_cleared'] = merge_final['date_clear'].dt.year
 
 
