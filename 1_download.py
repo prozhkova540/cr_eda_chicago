@@ -62,12 +62,15 @@ def prep_portal_df(df):
                  'homicide_victim_last_name']]
     df_new['date_x'] = df_new['date_x'].apply(pd.to_datetime)
     df_new['year'] = df_new['date_x'].dt.year
-    df_new = df_new[df_new['year'] < 2022].drop_duplicates(subset=['unique_id'])
+    df_new = df_new[(df_new['year'] >= 2001) &
+                    (df_new['year'] < 2022)].drop_duplicates(subset=['unique_id'])
+    #df_new = df_new[df_new['year'] < 2022].drop_duplicates(subset=['unique_id'])
     return df_new
 
 
 def merge_data(df_1, df_2):
     merged_df = pd.merge(df_1, df_2, how="inner", on=['case_number'])
+    #merged_df = pd.merge(df_1, df_2, how="left", on=['case_number'])
     return merged_df
 
 
@@ -85,11 +88,12 @@ hom_clr_df = pd.concat([trace_df_clean, foia_df_clean], ignore_index=True, axis=
 
 
 # merge chicago data portal data and downloaded data
-merge_final = merge_data(cdp_data, hom_clr_df)
-# .drop_duplicates(subset=['unique_id'])
+merge_final = merge_data(cdp_data, hom_clr_df).drop_duplicates(subset=['unique_id'])
+merge_foia_cdp = merge_data(foia_df_clean, cdp_data)  # .drop_duplicates(subset=['unique_id'])
 merge_final['year_cleared'] = merge_final['date_clear'].dt.year
-
+merge_foia_cdp['year_cleared'] = merge_foia_cdp['date_clear'].dt.year
 
 hom_clr_df.to_csv(os.path.join(path, 'clean_data/hom_clearance.csv'), index=False)
 cdp_data.to_csv(os.path.join(path, 'clean_data/city_portal_hom.csv'), index=False)
 merge_final.to_csv(os.path.join(path, 'clean_data/merge_all.csv'), index=False)
+merge_foia_cdp.to_csv(os.path.join(path, 'clean_data/merge_foia_cdp.csv'), index=False)
