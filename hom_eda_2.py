@@ -71,6 +71,10 @@ black_fem = final_merge_df[(final_merge_df['race'] == 'BLK')
 black_fem_counts = pd.DataFrame(black_fem.groupby(['cleared'])
                                 ['case_number'].count()).reset_index()
 
+white_fem = final_merge_df[(final_merge_df['race'] == 'WHI')
+                           & (final_merge_df['sex'] == 'F')]
+white_fem_counts = pd.DataFrame(white_fem.groupby(['cleared'])
+                                ['case_number'].count()).reset_index()
 
 # race cleared by year -- incidents occurring between 2001 and 2021
 race_cleared_grouped = pd.DataFrame(all_cleared_df.groupby(['year_cleared', 'year', 'race'])
