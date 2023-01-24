@@ -16,7 +16,7 @@ cr_reports = pd.read_excel(os.path.join(path, 'inputs/CR_from_CPD_Annual_Reports
 
 
 all_cleared_df = final_merge_df[final_merge_df['cleared'] == 'Y']
-cr_reports = cr_reports.fillna(np.isnan())
+#cr_reports = cr_reports.fillna(np.isnan())
 
 # plot 1
 final_merge = final_merge_df[final_merge_df['year'] > 2000]
@@ -33,7 +33,7 @@ ax.set_xticklabels(ax.get_xticklabels(), rotation=0, fontsize=10)
 ax.set_xlabel('Month')
 ax.set_ylabel('Year')
 plt.title('Homicide Count in Chicago 2001 - 2021', fontdict={'fontsize': 12}, pad=14)
-plt.savefig(os.path.join(path, 'plots/static_plot_1.eps'), format='eps', dpi=1000)
+plt.savefig(os.path.join(path, 'plots/static_plot_1.png'), format='png', dpi=1000)
 
 # plot 2
 # number of homicides in data and number of homicides in the CPD annual reports don't always match
@@ -57,7 +57,7 @@ def line_subplots(df, col_1, col_2, col_3, t_1, t_2, t_3):
 
 line_subplots(cr_reports, cr_reports.homicide_count, cr_reports.total_cleared,
               cr_reports.firearm, 'Homicide', 'Cleared', 'Firearm')
-plt.savefig(os.path.join(path, 'plots/static_plot_2.eps'), format='eps', dpi=1000)
+plt.savefig(os.path.join(path, 'plots/static_plot_2.png'), format='png', dpi=1000)
 
 
 # Sources:

@@ -133,7 +133,7 @@ ax1 = beat_race_df.plot(ax=ax1, column='perc_black',  missing_kwds={'color': 'li
                         legend=True, cax=cax, cmap='Greens', legend_kwds={'format': '%.2f%%'})
 ax1.axis('off')
 ax1.set_title("Black Pop. as Percentage of Chicago's Total Pop.", loc='center')
-plt.savefig(os.path.join(path, 'plots/racial_demographics.eps'), format='eps', dpi=1000)
+plt.savefig(os.path.join(path, 'plots/racial_demographics.png'), format='png', dpi=1000)
 
 
 def plot_map(df_dist, df_beat, number_hom, title):
@@ -152,12 +152,12 @@ def plot_map(df_dist, df_beat, number_hom, title):
 
 ax_1 = plot_map(hom_dist_2019, hom_beat_2019, number_hom_2019,
                 'Homicide and Clearance Rate by District 2019')
-plt.savefig(os.path.join(path, 'plots/homicide_clr_map_19.eps'), format='eps', dpi=1000)
+plt.savefig(os.path.join(path, 'plots/homicide_clr_map_19.png'), format='png', dpi=1000)
 
 plot_map(hom_dist_2020, hom_beat_2020, number_hom_2020,
          'Homicide and Clearance Rate by District 2020')
-plt.savefig(os.path.join(path, 'plots/homicide_clr_map_20.eps'), format='eps', dpi=1000)
+plt.savefig(os.path.join(path, 'plots/homicide_clr_map_20.png'), format='png', dpi=1000)
 
 plot_map(hom_dist_2021, hom_beat_2021, number_hom_2021,
          'Homicide and Clearance Rate by District 2021')
-plt.savefig(os.path.join(path, 'plots/homicide_clr_map_21.eps'), format='eps', dpi=1000)
+plt.savefig(os.path.join(path, 'plots/homicide_clr_map_21.png'), format='png', dpi=1000)
