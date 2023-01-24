@@ -76,6 +76,36 @@ white_fem = final_merge_df[(final_merge_df['race'] == 'WHI')
 white_fem_counts = pd.DataFrame(white_fem.groupby(['cleared'])
                                 ['case_number'].count()).reset_index()
 
+white_male = final_merge_df[(final_merge_df['race'] == 'WHI')
+                            & (final_merge_df['sex'] == 'M')]
+white_male_counts = pd.DataFrame(white_male.groupby(['cleared', 'year_cleared'])
+                                 ['case_number'].count()).reset_index()
+
+black_male = final_merge_df[(final_merge_df['race'] == 'BLK')
+                            & (final_merge_df['sex'] == 'M')]
+blk_male_counts = pd.DataFrame(black_male.groupby(['cleared', 'year_cleared'])
+                               ['case_number'].count()).reset_index()
+
+wwh_male = final_merge_df[(final_merge_df['race'] == 'WWH')
+                          & (final_merge_df['sex'] == 'M')]
+wwh_male_counts = pd.DataFrame(wwh_male.groupby(['cleared', 'year_cleared'])
+                               ['case_number'].count()).reset_index()
+
+wwh_fem = final_merge_df[(final_merge_df['race'] == 'WWH')
+                         & (final_merge_df['sex'] == 'F')]
+wwh_fem_counts = pd.DataFrame(wwh_fem.groupby(['cleared', 'year_cleared'])
+                              ['case_number'].count()).reset_index()
+
+api_fem = final_merge_df[(final_merge_df['race'] == 'API')
+                         & (final_merge_df['sex'] == 'F')]
+api_fem_counts = pd.DataFrame(api_fem.groupby(['cleared', 'year_cleared'])
+                              ['case_number'].count()).reset_index()
+
+api_male = final_merge_df[(final_merge_df['race'] == 'API')
+                          & (final_merge_df['sex'] == 'M')]
+api_male_counts = pd.DataFrame(api_male.groupby(['cleared', 'year_cleared'])
+                               ['case_number'].count()).reset_index()
+
 # race cleared by year -- incidents occurring between 2001 and 2021
 race_cleared_grouped = pd.DataFrame(all_cleared_df.groupby(['year_cleared', 'year', 'race'])
                                     ['case_number'].count()).reset_index()
