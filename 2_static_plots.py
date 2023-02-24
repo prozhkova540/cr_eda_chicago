@@ -26,7 +26,7 @@ yr_month_map = yr_month_map.rename(
     columns={'case_number': 'homicides'}).pivot('year', 'month', 'homicides')
 
 fig, ax = plt.subplots(figsize=(10, 10))
-sns.heatmap(yr_month_map, cmap='RdYlGn_r',
+sns.heatmap(yr_month_map, cmap='Blues',  # cmap='RdYlGn_r'
             cbar_kws={'label': 'Count'})
 ax.set_yticklabels(ax.get_yticklabels(), rotation=0, fontsize=10)
 ax.set_xticklabels(ax.get_xticklabels(), rotation=0, fontsize=10)
