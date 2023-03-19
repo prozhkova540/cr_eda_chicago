@@ -143,7 +143,8 @@ def plot_map(df_dist, df_beat, number_hom, title):
     cax = divider.append_axes('right', size='4%', pad=0.1)
     ax_n = df_dist.plot(ax=ax_n, column='dist_cr',  missing_kwds={'color': 'lightgrey'},
                         legend=True, cax=cax, cmap='Blues', legend_kwds={'format': '%.2f%%'})
-    ax_n = hom_beat_2021.plot(ax=ax_n, column='dist_cr', legend=True, cax=cax, cmap='Blues')
+    ax_n = hom_beat_2021.plot(ax=ax_n, column='dist_cr', legend=True, cax=cax, cmap='Blues',
+                              legend_kwds={'format': '%.2f%%'})
     number_hom.plot(ax=ax_n, column='race', cmap='RdYlGn', legend=True, markersize=5)
     ax_n.set_title(title)
     ax_n.axis('off')
